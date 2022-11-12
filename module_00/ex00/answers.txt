@@ -1,0 +1,59 @@
+<package> = numpy
+
+Find the commands to:
+----------------------------------------------------------------
+• Output a list of installed packages and their versions.
+    - Usage:
+        python -m pip freeze [options]
+    - Description:
+        Output installed packages in requirements format.
+        packages are listed in a case-insensitive sorted order.
+                        ||||||||||||||||||
+    - Usage:
+        python -m pip list 
+    - Description:
+        List installed packages, including editables.
+        Packages are listed in a case-insensitive sorted order.
+
+    --> python -m pip freeze
+----------------------------------------------------------------
+• Show the package metadata of numpy.
+    - Usage:
+        python -m pip show [options] <package> ...
+    - Description:
+        Show information about one or more installed packages.
+        The output is in RFC-compliant mail header format.
+
+    --> python -m pip show numpy
+----------------------------------------------------------------
+• Remove the package numpy.
+    - Usage:
+        python -m pip uninstall [options] <package> ...
+        python -m pip uninstall [options] -r <requirements file> ...
+    - Description:
+        Uninstall packages.
+        
+    --> python -m pip uninstall numpy -y
+----------------------------------------------------------------
+• (Re)install the package numpy.
+    - Usage:
+        python -m pip install [options] <requirement specifier> [package-index-options] ...
+        python -m pip install [options] -r <requirements file> [package-index-options] ...
+        python -m pip install [options] [-e] <vcs project url> ...
+        python -m pip install [options] [-e] <local project path> ...
+        python -m pip install [options] <archive url/path> ...
+    Description:
+        Install packages from:
+            • PyPI (and other indexes) using requirement specifiers.
+            • VCS project urls.
+            • Local project directories.
+            • Local or remote source archives.
+        pip also supports installing from “requirements files”, which provide an easy way to specify a whole environment to be installed.
+
+    --> python -m pip install numpy
+----------------------------------------------------------------
+• Freeze your python packages and their versions in a requirements.txt file you
+have to turn-in.
+
+    --> python -m pip freeze > requirements.txt
+----------------------------------------------------------------
