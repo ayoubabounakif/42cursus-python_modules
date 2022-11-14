@@ -9,7 +9,6 @@ def operations(first, second):
     print(ops[3] + ":" + " " * (longest_string_len - len(ops[3])), first / second if second != 0 else "ERROR (division by zero)")
     print(ops[4] + ":" + " " * (longest_string_len - len(ops[4])), first % second if second != 0 else "ERROR (modulo by zero)")
 
-
 if __name__ == '__main__':
     argv = argv[1:]
     if (len(argv) != 2):
