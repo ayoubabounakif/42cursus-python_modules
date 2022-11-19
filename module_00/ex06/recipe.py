@@ -1,3 +1,14 @@
+"""
+Upon importing recipe, you get access to a list of methods
+• print_cookbook()
+• print_recipe_details(recipe_name = None)
+• delete_recipe(recipe_name = None)
+• add_recipe()
+• main() -> executes the cookbook program
+""" 
+
+PROGRAM = False
+
 cookbook = {
     'sandwich' : {
         'ingredients' : ["ham", "bread", "cheese", "tomatoes"],
@@ -54,9 +65,11 @@ def add_recipe():
                 break
             ingredients.append(inp)
         meal_type = input('\nEnter a meal type:\n')
-        prep_time = int(input('\nEnter a preparation time:\n'))
-        while prep_time < 0:
-            prep_time = int(input('\nPlease enter a non-negative integer:\n'))
+        while meal_type.isdigit():
+            meal_type = input("\nPlease enter a string value!\n")
+        prep_time = input('\nEnter a preparation time:\n')
+        while prep_time.isdigit() == False:
+            prep_time = input('\nPlease enter a non-negative integer!\n')
         cookbook.update({
         recipe_name: {
             'ingredients': list(ingredients),
@@ -72,7 +85,7 @@ def quit_program():
 
 def base_error(error_message = 'Sorry, this option does not exist.'):
     print(error_message)
-    options_list()
+    options_list() if PROGRAM == True else ''
 
 def options_list():
     print("List of available option:\n \
@@ -94,6 +107,7 @@ def option_chosen(arg):
     return switcher.get(arg, base_error)
 
 def main():
+    PROGRAM = True
     print("Welcome to the Python cookbook !")
     options_list()
     while True:
