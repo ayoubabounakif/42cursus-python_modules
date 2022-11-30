@@ -91,8 +91,22 @@ if __name__ == '__main__':
     print(Vector([[1, 2, 3], [4, 5, 6]]).values) # [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
     print(Vector([[1, 2, 3], [4, 5, 6]]).shape) # (2, 3)
 
-    print(Vector([[1, 2, 3], [4, 5, 6]]).values[0]) # [1.0, 2.0, 3.0]
-    print(Vector([[1, 2, 3], [4, 5, 6]]).values[0][0]) # 1.0
+    v = Vector(4)
+    v2 = Vector([[1.0], [1.0], [1.0], [1.0]])
+    print((v + v2).values) # [[1.0], [2.0], [3.0], [4.0]]
+
+    print((v - v2).values != (v2 - v).values) # True
+
+
+    # # built-in method __add__, __radd__, __sub__ and __rsub__
+    # print(Vector(4) / 2)
+    # print(Vector(4) / 3.14)
+    # print(Vector(4) / 0) # ValueError: should only divide a Vector to a non-zero scalar
+    # print(Vector(4) / None) # NotImplementedError: should only divide a Vector to a scalar
+    # print(3 / Vector(3)) # NotImplementedError: should only divide a Vector to a scalar
+
+
+    # extra tests
 
     # v1 = Vector([[0.0], [1.0], [2.0], [3.0]])
     # v2 = Vector([[0.0], [1.0], [2.0], [0.0]])
