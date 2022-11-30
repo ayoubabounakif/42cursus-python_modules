@@ -5,11 +5,11 @@ class Vector:
 
     def __checkvalidity(self, values):
         if isinstance(values, int):
-            assert values >= 0, f"Value should be positive"
+            if not values >= 0: raise ValueError("value should be positive")
         if isinstance(values, tuple):
-            assert len(values) == 2, f"Tuple should be of form of range(a, b)"
-            assert isinstance(values[0], int) and isinstance(values[1], int), f"Values should be integers."
-            assert values[0] <= values[1], f"range(a, b) expect: a < b"
+            if not len(values) == 2: raise ValueError("tuple should be of form of range(a, b)")
+            if not (isinstance(values[0], int) and isinstance(values[1], int)): raise ValueError("values should be integers.") 
+            if not values[0] <= values[1]: raise ValueError("range(a, b) expect: a < b")
         else:
             pass
 
@@ -22,8 +22,13 @@ class Vector:
             self.values = [[float(x)] for x in range(values[0], values[1])]
             self.shape = (values[1] - values[0], 1)
         else:
-            self.values = [list(map(float, sublist)) for sublist in values]
-            self.shape = (len(self.values), len(self.values[0]))
+            # check if values is a list of list of floats
+            if any(isinstance(x, list) for x in values):
+                self.values = [list(map(float, sublist)) for sublist in values]
+                self.shape = (len(self.values), len(self.values[0]))
+            else:
+                self.values = values
+                self.shape = (len(values), 1)
 
     def __error(self, other, type, op):
         if (type == "Vector"):
@@ -78,35 +83,46 @@ class Vector:
     
     def __repr__(self):
         return f"Vector({self.values})"
+    
+    def T(self):
+        result = []
+        # print (self.values[0])
+        # print (len(self.values[0]))
+        for x in range(len(self.values[0])):
+            result.append([self.values[y][x] for y in range(len(self.values))])
+            # print(self.values[0][x])
+        return Vector(result)
+
+    # x . y = [x1 ... xn] * [y1 ... yn] = x1 . y1 + ... + xn . yn
+    def dot(self, other):
+        self.__error(other, "Vector", "dot")
+        result = 0
+        for x in range(len(self.values)):
+            result += self.values[x][0] * other.values[x][0]
+        return result
 
 
 if __name__ == '__main__':
 
-    print(Vector(4).values) # [[0.0], [1.0], [2.0], [3.0]]
-    print(Vector(4).shape) # (4, 1)
+    # # --------------- Example 1 ---------------
 
-    print(Vector((2, 4)).values) # [[2.0], [3.0]]
-    print(Vector((2, 4)).shape) # (2, 1)
+    # print(Vector(4).values) # [[0.0], [1.0], [2.0], [3.0]]
+    # print(Vector(4).shape) # (4, 1)
 
-    print(Vector([[1, 2, 3], [4, 5, 6]]).values) # [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
-    print(Vector([[1, 2, 3], [4, 5, 6]]).shape) # (2, 3)
+    # print(Vector((2, 4)).values) # [[2.0], [3.0]]
+    # print(Vector((2, 4)).shape) # (2, 1)
 
-    v = Vector(4)
-    v2 = Vector([[1.0], [1.0], [1.0], [1.0]])
-    print((v + v2).values) # [[1.0], [2.0], [3.0], [4.0]]
+    # print(Vector([[1, 2, 3], [4, 5, 6]]).values) # [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
+    # print(Vector([[1, 2, 3], [4, 5, 6]]).shape) # (2, 3)
 
-    print((v - v2).values != (v2 - v).values) # True
+    # v = Vector(4)
+    # v2 = Vector([[1.0], [1.0], [1.0], [1.0]])
+    # print((v + v2).values) # [[1.0], [2.0], [3.0], [4.0]]
 
-
-    # # built-in method __add__, __radd__, __sub__ and __rsub__
-    # print(Vector(4) / 2)
-    # print(Vector(4) / 3.14)
-    # print(Vector(4) / 0) # ValueError: should only divide a Vector to a non-zero scalar
-    # print(Vector(4) / None) # NotImplementedError: should only divide a Vector to a scalar
-    # print(3 / Vector(3)) # NotImplementedError: should only divide a Vector to a scalar
+    # print((v - v2).values != (v2 - v).values) # True
 
 
-    # extra tests
+    # # --------------- Example 2 ---------------
 
     # v1 = Vector([[0.0], [1.0], [2.0], [3.0]])
     # v2 = Vector([[0.0], [1.0], [2.0], [0.0]])
@@ -131,5 +147,65 @@ if __name__ == '__main__':
     #     print(error)
 
 
+    # # --------------- Example 3 ---------------
+
+    # print(Vector([1. , 2e-3, 3.14, 5.]).values) # [1.0, 0.002, 3.14, 5.0]
+    # print(Vector(4).values) # [[0.0], [1.0], [2.0], [3.0]]
+    # # Vector(-1) # ValueError: should only create a Vector with a positive integer
+    # print(Vector((10, 12)).values) # [[10.0], [11.0]]
+    # # print(Vector((3, 1)).values) # ValueError: range(a, b) expect: a < b
+    # print(Vector(0).values) # []
+    # print(Vector((1, 1)).values) # []
+    # print(Vector((4, 7.1)).values) # ValueError: values should be integers.
+
+
+    # # --------------- Example 4 ---------------
+    # # built-in method __add__, __radd__, __sub__ and __rsub__
+
+    # print(Vector(4) / 2)
+    # print(Vector(4) / 3.14)
+    # print(Vector(4) / 0) # ValueError: should only divide a Vector to a non-zero scalar
+    # print(Vector(4) / None) # NotImplementedError: should only divide a Vector to a scalar
+    # print(3 / Vector(3)) # NotImplementedError: should only divide a Vector to a scalar
+
+
+    # # ------------- Subjects Tests ------------
+
+    # # -------
+
+    # # Column vector of shape (n, 1)
+    # print(Vector([[0.0], [1.0], [2.0], [3.0]]).shape) # (4,1)
+    # print(Vector([[0.0], [1.0], [2.0], [3.0]]).values) # [[0.0], [1.0], [2.0], [3.0]]
+
+    # # -------
+
+    # # Row vector of shape (1, n)
+    # print(Vector([[0.0, 1.0, 2.0, 3.0]]).shape) # (1,4)
+    # print(Vector([[0.0, 1.0, 2.0, 3.0]]).values) # [[0.0, 1.0, 2.0, 3.0]]
+
+    # # -------
+
+    # # Example 1:
+    # v1 = Vector([[0.0], [1.0], [2.0], [3.0]])
+    # print(v1.shape) # (4,1)
+    # print(v1.T()) # Vector([[0.0, 1.0, 2.0, 3.0]]
+    # print(v1.T().shape)
+
+
+    # # Example 2:
+    # v2 = Vector([[0.0, 1.0, 2.0, 3.0]])
+    # print(v2.shape)
+    # print(v2.T()) # Vector([[0.0], [1.0], [2.0], [3.0]])
+    # print(v2.T().shape) # (4, 1)
     
-    
+
+    # # -------
+
+    # # Example 3:
+    # v1 = Vector([[0.0], [1.0], [2.0], [3.0]])
+    # v2 = Vector([[2.0], [1.5], [2.25], [4.0]])
+    # print(v1.dot(v2)) # 18.0
+
+    v3 = Vector([[1.0, 3.0]])
+    v4 = Vector([[2.0, 4.0]])
+    print(v3.dot(v4)) # 13.0 ???????
