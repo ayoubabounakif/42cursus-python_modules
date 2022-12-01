@@ -97,12 +97,19 @@ class Vector:
     def dot(self, other):
         self.__error(other, "Vector", "dot")
         result = 0
-        for x in range(len(self.values)):
-            result += self.values[x][0] * other.values[x][0]
+        if len(self.values[0]) == 1:
+            for x in range(len(self.values)):
+                result += self.values[x][0] * other.values[x][0]
+        elif len(self.values) == 1:
+            for x in range(len(self.values[0])):
+                result += self.values[0][x] * other.values[0][x]
         return result
+        
 
 
 if __name__ == '__main__':
+
+    print()
 
     # # --------------- Example 1 ---------------
 
@@ -206,6 +213,6 @@ if __name__ == '__main__':
     # v2 = Vector([[2.0], [1.5], [2.25], [4.0]])
     # print(v1.dot(v2)) # 18.0
 
-    v3 = Vector([[1.0, 3.0]])
-    v4 = Vector([[2.0, 4.0]])
-    print(v3.dot(v4)) # 13.0 ???????
+    # v3 = Vector([[1.0, 3.0]])
+    # v4 = Vector([[2.0, 4.0]])
+    # print(v3.dot(v4)) # 13.0 ??????? -- Manual calculation was 14.0
