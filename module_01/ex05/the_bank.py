@@ -31,10 +31,6 @@ class Bank:
         return self.__str__()
 
 
-
-
-
-
     def __findAccount(self, name):
         """ Find account associated to name
             @name: str(name) of the account
@@ -52,7 +48,7 @@ class Bank:
         if account == None: return False
         return account.value >= amount
 
-    def __checkAccountValidity(self, account_name):
+    def __checkAccountCorruption(self, account_name):
         """ Check if account is valid
             @account_name: str(name) of the account
             @return True if valid, False if not
@@ -68,7 +64,6 @@ class Bank:
         if not isinstance(getattr(account, 'name'), str): return False
         if not isinstance(getattr(account, 'id'), int): return False
         if not isinstance(getattr(account, 'value'), (int, float)): return False
-        print("Account %s is valid" % account_name)
         return True
 
     def __transferPriorValidityCheck(self, from_account, to_account, amount):
@@ -78,8 +73,8 @@ class Bank:
             @amount: float(amount) amount to transfer
             @return True if success, False if an error occured
         """
-        if not self.__checkAccountValidity(from_account): return False
-        if not self.__checkAccountValidity(to_account): return False
+        if not self.__checkAccountCorruption(from_account): return False
+        if not self.__checkAccountCorruption(to_account): return False
         if amount < 0 or not self.__accountHasFunds(from_account, amount): return False
         return True
 
@@ -92,8 +87,15 @@ class Bank:
         if self.__findAccount(new_account.name) != None: return False
         return True
 
-
-
+    def __checkAccountBeforeFix(self, account_name):
+        """ Check if account is valid before fixing it
+            @account_name: str(name) of the account
+            @return True if valid, False if not
+        """
+        if not isinstance(account_name, str): return False
+        account = self.__findAccount(account_name)
+        if account == None: return False
+        return True
 
 
     def add(self, new_account):
@@ -103,6 +105,7 @@ class Bank:
         """
         if not self.__addAccountValidityCheck(new_account): return False
         self.accounts.append(new_account)
+        return True
 
     def transfer(self, origin, dest, amount):
         """ Perform the fund transfer
@@ -123,29 +126,15 @@ class Bank:
             @name: str(name) of the account
             @return True if success, False if an error occured
         """
-        pass
-
-if __name__ == '__main__':
-    bank = Bank()
-
-    bank.add(Account(
-        'Jane',
-        zip='911-745',
-        value=1000.0,
-        ref='1044618427ff2782f0bbece0abd05f31'
-    ))
-
-    jhon = Account(
-        'Jhon',
-        zip='911-745',
-        value=1000.0,
-        ref='1044618427ff2782f0bbece0abd05f31'
-    )
-
-
-    bank.add(jhon)
-
-    print("testing a valid transfer")
-    print(jhon.value)
-    bank.transfer("Jane", "Jhon", 500)
-    print(jhon.value)
+        if not self.__checkAccountBeforeFix(name): return False
+        if self.__checkAccountCorruption(name): return True
+        account = self.__findAccount(name)
+        for i in list(account.__dict__):  # type: ignore
+            if i.startswith('b'): delattr(account, i)
+        if not hasattr(account, 'addr'): setattr(account, 'addr', 'unknown')
+        if not hasattr(account, 'zip'): setattr(account, 'zip', 0)
+        if not isinstance(getattr(account, 'name'), str): setattr(account, 'name', name)
+        if not isinstance(getattr(account, 'id'), int): setattr(account, 'id', Account.ID_COUNT)
+        if not isinstance(getattr(account, 'value'), (int, float)): setattr(account, 'value', 0)
+        # Account.ID_COUNT += 1  # type: ignore
+        return True
