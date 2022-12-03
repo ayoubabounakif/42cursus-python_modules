@@ -60,14 +60,15 @@ class Bank:
         account = self.__findAccount(account_name)
         if account == None: return False
         if len(account.__dict__) % 2 == 0: return False
-        for i in account.__dict__.items():
+        for i in account.__dict__:  # type: ignore
             if i.startswith('b'): return False
-        if not hasattr(account, 'zip') or not hasattr(account, 'addr'): return False
+        if not hasattr(account, 'zip') and not hasattr(account, 'addr'): return False
         for i in ['name', 'value', 'id']:
             if not hasattr(account, i): return False
         if not isinstance(getattr(account, 'name'), str): return False
         if not isinstance(getattr(account, 'id'), int): return False
         if not isinstance(getattr(account, 'value'), (int, float)): return False
+        print("Account %s is valid" % account_name)
         return True
 
     def __transferPriorValidityCheck(self, from_account, to_account, amount):
