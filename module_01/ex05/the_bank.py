@@ -19,56 +19,89 @@ class Account(object):
 class Bank:
     """The bank"""
 
-    def __checkAccountExistence(self, account):
-        for i in self.accounts:
-            if i.name == account: return True
-        return False
+    def __init__(self):
+        self.accounts = []
 
-    def __checkAccountCorruption(self, account):
-        """ Check if account is corrupted
-            @account: str(name) of the account
-            @return True if corrupted, False if not
+    def __str__(self):
+        """ String representation of the bank """
+        return "Bank with %d accounts" % len(self.accounts)
+    
+    def __repr__(self):
+        """ Representation of the bank """
+        return self.__str__()
+
+
+
+
+
+
+    def __findAccount(self, name):
+        """ Find account associated to name
+            @name: str(name) of the account
+            @return Account() if found, None if not
         """
-        attributes_list = ['name', 'value', 'id']
-        for i in self.accounts:
-            if getattr(i, 'name') == account:
-                if len(i.__dict__) % 2 == 0: return True
-                for j in i.__dict__:
-                    if j.startswith('b'): return True
-                if not hasattr(i, 'zip') and not hasattr(i, 'addr'): return True
-                for k in attributes_list:
-                    if not hasattr(i, k): return True
-                if not isinstance(getattr(i, 'name'), str): return True
-                if not isinstance(getattr(i, 'id'), int): return True
-                if not isinstance(getattr(i, 'value'), (int, float)): return True
-        return False
-
-    def __checkAccountsValidity(self, origin: str, dest: str, amount):
-        """ Check if accounts are valid
-            @origin: str(name) of the first account
-            @dest: str(name) of the destination account
+        return next((x for x in self.accounts if x.name == name), None)
+    
+    def __accountHasFunds(self, account_name, amount):
+        """ Check if account has funds
+            @account_name: str(name) of the account
             @amount: float(amount) amount to transfer
-            @return True if valid, throws Exception if not
+            @return True if has fund, False if not
         """
-        if not isinstance(amount, (float, int)): raise AttributeError('amount must be a float or an int')
-        if amount < 0: raise AttributeError('amount cannot be negative')
-        if not self.__checkAccountExistence(origin): raise AttributeError('origin account does not exist')
-        if not self.__checkAccountExistence(dest): raise AttributeError('destination account does not exist')
+        account = self.__findAccount(account_name)
+        if account == None: return False
+        return account.value >= amount
+
+    def __checkAccountValidity(self, account_name):
+        """ Check if account is valid
+            @account_name: str(name) of the account
+            @return True if valid, False if not
+        """
+        account = self.__findAccount(account_name)
+        if account == None: return False
+        if len(account.__dict__) % 2 == 0: return False
+        for i in account.__dict__.items():
+            if i.startswith('b'): return False
+        if not hasattr(account, 'zip') or not hasattr(account, 'addr'): return False
+        for i in ['name', 'value', 'id']:
+            if not hasattr(account, i): return False
+        if not isinstance(getattr(account, 'name'), str): return False
+        if not isinstance(getattr(account, 'id'), int): return False
+        if not isinstance(getattr(account, 'value'), (int, float)): return False
+        return True
+
+    def __transferPriorValidityCheck(self, from_account, to_account, amount):
+        """ Perform a prior check and validates the accounts and the amount
+            @from_account: str(name) of the first account
+            @to_account: str(name) of the destination account
+            @amount: float(amount) amount to transfer
+            @return True if success, False if an error occured
+        """
+        if not self.__checkAccountValidity(from_account): return False
+        if not self.__checkAccountValidity(to_account): return False
+        if amount < 0 or not self.__accountHasFunds(from_account, amount): return False
+        return True
+
+    def __addAccountValidityCheck(self, new_account):
+        """ Perform a prior check and validates the account
+            @new_account: Account() new account to append
+            @return True if success, False if an error occured
+        """
+        if not isinstance(new_account, Account): return False
+        if self.__findAccount(new_account.name) != None: return False
         return True
 
 
-    def __init__(self):
-        self.accounts = []
+
+
 
     def add(self, new_account):
         """ Add new_account in the Bank
             @new_account: Account() new account to append
             @return True if success, False if an error occured
         """
-        if not isinstance(new_account, Account): raise AttributeError('new_account is not an instance of Account')
-        if self.__checkAccountExistence(new_account.name): raise AttributeError('new_account already exists')
+        if not self.__addAccountValidityCheck(new_account): return False
         self.accounts.append(new_account)
-        
 
     def transfer(self, origin, dest, amount):
         """ Perform the fund transfer
@@ -77,29 +110,41 @@ class Bank:
             @amount: float(amount) amount to transfer
             @return True if success, False if an error occured
         """
-        if self.__checkAccountsValidity(origin, dest, amount): return False
+        if not self.__transferPriorValidityCheck(origin, dest, amount): return False
+        origin, dest = self.__findAccount(origin), self.__findAccount(dest)
+        if origin == None or dest == None: return False
         origin.transfer(-amount)
         dest.transfer(amount)
         return True
-        
 
     def fix_account(self, name):
         """ Fix account associated to name if corrupted
             @name: str(name) of the account
             @return True if success, False if an error occured
         """
-        if not isinstance(name, str): return False
-        for i in self.accounts:
-            if i.name == name:
-                if self.__checkAccountCorruption(name):
-                    if len(i.__dict__) % 2 == 0: i.__dict__.popitem()
-                    for j in i.__dict__:
-                        if j.startswith('b'): i.__dict__.pop(j)
-                    if not hasattr(i, 'zip') and not hasattr(i, 'addr'): i.__dict__.pop('addr')
-                    for k in ['name', 'value', 'id']:
-                        if not hasattr(i, k): setattr(i, k, None)
-                    if not isinstance(getattr(i, 'name'), str): setattr(i, 'name', None)
-                    if not isinstance(getattr(i, 'id'), int): setattr(i, 'id', None)
-                    if not isinstance(getattr(i, 'value'), (int, float)): setattr(i, 'value', None)
-                    return True
-        return False
+        pass
+
+if __name__ == '__main__':
+    bank = Bank()
+
+    bank.add(Account(
+        'Jane',
+        zip='911-745',
+        value=1000.0,
+        ref='1044618427ff2782f0bbece0abd05f31'
+    ))
+
+    jhon = Account(
+        'Jhon',
+        zip='911-745',
+        value=1000.0,
+        ref='1044618427ff2782f0bbece0abd05f31'
+    )
+
+
+    bank.add(jhon)
+
+    print("testing a valid transfer")
+    print(jhon.value)
+    bank.transfer("Jane", "Jhon", 500)
+    print(jhon.value)
