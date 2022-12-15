@@ -8,7 +8,7 @@ def ft_progress(listy):
     for i in listy:
         yield i
 
-def progress_bar(elem, ret):
+def progressbar(elem, ret):
     left = WIDTH * ret // (SCALE * 2)
     right = WIDTH - left
     tags = "=" * left 
