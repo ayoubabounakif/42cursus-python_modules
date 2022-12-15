@@ -4,10 +4,6 @@ SCALE = 3333
 WIDTH = 60
 START = time.time()
 
-def ft_progress(listy):
-    for i in listy:
-        yield i
-
 def progressbar(elem, ret):
     left = WIDTH * ret // (SCALE * 2)
     right = WIDTH - left
