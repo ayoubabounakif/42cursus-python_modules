@@ -16,16 +16,16 @@ Once the script finishes running, you can install your package using pip by runn
 A python package has to be comprised of the following files according to a similar file structure (one the two setup files is enough):
 ```
 ex02/
-├─ LICENSE.md       (mandatory for the exercise, recommended otherwise)
-├─ pyproject.toml   (recommended)
-├─ README.md        (mandatory for the exercise, recommended otherwise)
-├─ setup.cfg        (mandatory or setup.py or build.sh)
-├─ setup.py         (mandatory or setup.cfg or build.sh)
-├─ build.sh         (mandatory or setup.cfg or setup.py)
+├─ LICENSE.md
+├─ pyproject.toml
+├─ README.md 
+├─ setup.cfg        (mandatory || setup.py || build.sh)
+├─ setup.py         (mandatory || setup.cfg || build.sh)
+├─ build.sh         (mandatory || setup.cfg || setup.py)
 ├─ src/
 |  └───my_minipack/
 │      ├── __init__.py
 │      ├── logger.py
 │      └── progressbar.py
-└── tests/          (not asked here, recommended otherwise)
+└── tests/
 ```
