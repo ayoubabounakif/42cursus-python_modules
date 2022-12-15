@@ -8,7 +8,6 @@ Run the script by running the following command:
 ```./build.sh```
 This will upgrade pip if necessary, and then build my_minipack package in both wheel and egg format.
 The built packages will be saved to a dist directory, which will be created if it does not already exist.
-Once the script finishes running, you can install your package using pip by running the following command:
-* ```pip install ./dist/my_minipack-1.0.0.tar.gz```</br>
-Alternatively, you can use:
+Once the script finishes running, you can install your package using pip by running either one of the following commands:
+* ```pip install ./dist/my_minipack-1.0.0.tar.gz```
 * ```my_minipack-1.0.0-py3-none-any.whl``` file in the ```dist``` directory to install the package.
