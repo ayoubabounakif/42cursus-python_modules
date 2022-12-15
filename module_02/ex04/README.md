@@ -1,4 +1,4 @@
-# About
+## About
 my_minipack package consists of 2 modules:
 * The progress bar (module_00/ex10) which should be imported it via ```import my_minipack.progressbar```
 * The logger (module_02/ex02), which should be imported via ```import my_minipack.logger```
@@ -11,3 +11,21 @@ The built packages will be saved to a dist directory, which will be created if i
 Once the script finishes running, you can install your package using pip by running either one of the following commands:
 * ```pip install ./dist/my_minipack-1.0.0.tar.gz```
 * ```my_minipack-1.0.0-py3-none-any.whl``` file in the ```dist``` directory to install the package.
+
+## Structure
+A python package has to be comprised of the following files according to a similar file structure (one the two setup files is enough):
+```
+ex02/
+├─ LICENSE.md       (mandatory for the exercise, recommended otherwise)
+├─ pyproject.toml   (recommended)
+├─ README.md        (mandatory for the exercise, recommended otherwise)
+├─ setup.cfg        (mandatory or setup.py or build.sh)
+├─ setup.py         (mandatory or setup.cfg or build.sh)
+├─ build.sh         (mandatory or setup.cfg or setup.py)
+├─ src/
+|  └───my_minipack/
+│      ├── __init__.py
+│      ├── logger.py
+│      └── progressbar.py
+└── tests/          (not asked here, recommended otherwise)
+```
