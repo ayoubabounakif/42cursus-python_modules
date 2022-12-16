@@ -1,4 +1,4 @@
-[project]
+[package]
 name = "my_minipack"
 version = "1.0.0"
 authors = [
@@ -21,12 +21,9 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only"
 ]
 
-project.urls]
-"Homepage" = "https://github.com/ayoubabounakif/42cursus-python/module02/ex04"
-"Bug Tracker" = "https://github.com/ayoubabounakif/42cursus-python/issues"
-
-[project.metadata]
+[package.metadata]
 location = "[PATH TO BOOTCAMP PYTHON]/module02/tmp_env/lib/python3.7/site-packages"
+home= "None"
 requires = []
 required-by = []
 metadata-version = "2.1"
