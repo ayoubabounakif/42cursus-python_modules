@@ -1,8 +1,8 @@
-[package]
-name = "my-minipack"
+[project]
+name = "my_minipack"
 version = "1.0.0"
 authors = [
-  { name="Ayoub ABOUNAKIF", email="aabounak@student.1337.ma" },
+  { name="aabounak", email="aabounak@student.1337.ma" },
 ]
 summary = "How to create a package in python."
 home-page = "None"
@@ -21,7 +21,11 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only"
 ]
 
-[package.metadata]
+project.urls]
+"Homepage" = "https://github.com/ayoubabounakif/42cursus-python/module02/ex04"
+"Bug Tracker" = "https://github.com/ayoubabounakif/42cursus-python/issues"
+
+[project.metadata]
 location = "[PATH TO BOOTCAMP PYTHON]/module02/tmp_env/lib/python3.7/site-packages"
 requires = []
 required-by = []
