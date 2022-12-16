@@ -31,9 +31,8 @@ ex02/
 ├─ LICENSE.md
 ├─ pyproject.toml
 ├─ README.md 
-├─ setup.cfg        (mandatory || setup.py || build.sh)
-├─ setup.py         (mandatory || setup.cfg || build.sh)
-├─ build.sh         (mandatory || setup.cfg || setup.py)
+├─ setup.py
+├─ build.sh
 ├─ src/
 |  └───my_minipack/
 │      ├── __init__.py
