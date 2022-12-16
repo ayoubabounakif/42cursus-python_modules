@@ -12,6 +12,7 @@ st.setup(
     include=['my_minipack'],
     exclude=['tests'],
   ),
+  package_dir={'':"src"},
   python_requires='>=3.7',
   classifiers = [
     "Development Status :: 3 - Alpha",
