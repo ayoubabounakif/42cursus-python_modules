@@ -1,34 +1,3 @@
-[package]
-name = "my_minipack"
-version = "1.0.0"
-authors = [
-  { name="aabounak", email="aabounak@student.1337.ma" },
-]
-summary = "How to create a package in python."
-home-page = "None"
-readme = "README.md"
-requires-python = ">=3.7"
-license = "GPLv3"
-classifiers = [
-  "Development Status :: 3 - Alpha",
-  "Intended Audience :: Developers",
-  "Intended Audience :: Students",
-  "Topic :: Education",
-  "Topic :: HowTo",
-  "Topic :: Package",
-  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3 :: Only"
-]
-
-[package.metadata]
-location = "[PATH TO BOOTCAMP PYTHON]/module02/tmp_env/lib/python3.7/site-packages"
-home= "None"
-requires = []
-required-by = []
-metadata-version = "2.1"
-installer = "pip"
-
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
