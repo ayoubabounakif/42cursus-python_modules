@@ -5,4 +5,5 @@ def ft_map(function_to_apply, iterable):
         @return An iterable. None if the iterable can not be used by the function.
     """
     if not hasattr(iterable, '__iter__'): return None
+    if not hasattr(function_to_apply, '__call__'): return None
     return (function_to_apply(i) for i in iterable)
