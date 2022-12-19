@@ -7,6 +7,7 @@ class NumPyCreator:
         self.array = None
     
     def from_list(self, lst, dtype=None):
+        if not isinstance(lst, list): return None
         """
         Create an array from a list.
 
@@ -30,6 +31,7 @@ class NumPyCreator:
         return self.array
 
     def from_tuple(self, tpl, dtype=None):
+        if not isinstance(tpl, tuple): return None
         """
         Create an array from a tuple.
 
@@ -53,6 +55,7 @@ class NumPyCreator:
         return self.array
 
     def from_iterable(self, itr, dtype=None):
+        if not isinstance(itr, (list, tuple)): return None
         """
         Create an array from an iterable object.
 
