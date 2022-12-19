@@ -31,7 +31,7 @@ ex02/
 ├─ LICENSE.md
 ├─ pyproject.toml
 ├─ README.md 
-├─ setup.py
+├─ setup.py | setup.cfg
 ├─ build.sh
 ├─ src/
 |  └───my_minipack/
