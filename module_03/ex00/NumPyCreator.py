@@ -3,11 +3,17 @@ from numpy import random
 
 class NumPyCreator:
 
+    def __isIterable(self, obj):
+        return callable(getattr(obj, "__iter__", False))
+
     def __init__(self):
         self.array = None
     
     def from_list(self, lst, dtype=None):
         if not isinstance(lst, list): return None
+        if all(isinstance(i, list) for i in lst):
+            if not all(len(i) == len(lst[0]) for i in lst): return None
+            
         """
         Create an array from a list.
 
@@ -55,7 +61,7 @@ class NumPyCreator:
         return self.array
 
     def from_iterable(self, itr, dtype=None):
-        if not isinstance(itr, (list, tuple)): return None
+        if not self.__isIterable(itr): return None
         """
         Create an array from an iterable object.
 
