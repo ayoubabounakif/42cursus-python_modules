@@ -26,16 +26,6 @@ class NumPyCreator:
             set, a copy is always made, even if the dtype of `a` is the same as
             `dtype`.
         """
-        # Check if all elements in the list are of the same type
-        if all(isinstance(x, type(lst[0])) for x in lst):
-            # Check if all elements in the list are of the same length
-            if all(len(x) == len(lst[0]) for x in lst):
-                self.array = np.array(lst, dtype)
-                return self.array
-            else:
-                return None
-        else:
-            return None
         self.array = np.array(lst, dtype)
         return self.array
 
@@ -110,12 +100,13 @@ class NumPyCreator:
 
     def random(self, shape, dtype=None):
         """
-        Return random floats in the half-open interval [0.0, 1.0).
+        Return a new array of random floats in the half-open interval [0.0, 1.0)
+        given shape and type, filled with value.
 
         Parameters
         ----------
         shape : int or sequence of ints
-            Shape of the array.
+            Shape of the array, e.g., ``(2, 3)`` or ``2``.
         dtype : data-type, optional
             The desired data-type for the array, e.g., `numpy.int8`.  Default is
             `numpy.float64`.
@@ -125,7 +116,7 @@ class NumPyCreator:
         out : ndarray
             Array of random floats of the given shape, dtype.
         """
-        self.array = np.random.rand(shape, dtype)
+        self.array = np.random.random(shape).astype(dtype)
         return self.array
 
     def identity(self, n, dtype=None):
@@ -151,18 +142,18 @@ class NumPyCreator:
         self.array = np.identity(n, dtype)
         return self.array
 
-if __name__ == "__main__":
-    npc = NumPyCreator()
-    print(npc.from_list([[1 ,2, 3], [6, 3, 4]])) # array([[1, 2, 3], [6, 3, 4]])
-    print(npc.from_list([[1, 2, 3], [6, 4]])) # None
-    print(npc.from_list([[1, 2, 3], ['a', 'b', 'c'], [6, 4, 7]])) # array([['1','2','3'], ['a','b','c'], ['6','4','7'], dtype='<U21'])
-    print(npc.from_list(((1, 2), (3, 4)))) # None
+# if __name__ == "__main__":
+#     npc = NumPyCreator()
+#     print(npc.from_list([[1 ,2, 3], [6, 3, 4]])) # array([[1, 2, 3], [6, 3, 4]])
+#     print(npc.from_list([[1, 2, 3], [6, 4]])) # None
+#     print(npc.from_list([[1, 2, 3], ['a', 'b', 'c'], [6, 4, 7]])) # array([['1','2','3'], ['a','b','c'], ['6','4','7'], dtype='<U21'])
+#     print(npc.from_list(((1, 2), (3, 4)))) # None
 
-    # print(npc.from_tuple(("a", "b", "c")))
-    # print(npc.from_iterable(range(5)))
-    # print(npc.from_shape((3, 5)))
-    # print(npc.random((3, 5)))
-    # print(npc.identity(4))
+#     # print(npc.from_tuple(("a", "b", "c")))
+#     # print(npc.from_iterable(range(5)))
+#     # print(npc.from_shape((3, 5)))
+#     # print(npc.random((3, 5)))
+#     # print(npc.identity(4))
 
-    print(npc.from_list("toto"))
-    print(npc.from_list([[1,2,3],[6,3,4],[8,5,6,7]]))
+#     print(npc.from_list("toto"))
+#     print(npc.from_list([[1,2,3],[6,3,4],[8,5,6,7]]))
