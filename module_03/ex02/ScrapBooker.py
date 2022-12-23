@@ -51,7 +51,11 @@ class ScrapBooker:
         ------
         This function should not raise any Exception.
         """
-        pass
+        if axis != 0 and axis != 1:
+            return None
+        if n < 1 or n > array.shape[axis]:
+            return None
+        return np.delete(array, np.s_[n-1::n], axis)
 
     def juxtapose(self, array, n, axis):
         """
@@ -72,7 +76,11 @@ class ScrapBooker:
         -------
         This function should not raise any Exception.
         """
-        pass
+        if axis != 0 and axis != 1:
+            return None
+        if n < 1:
+            return None
+        return np.concatenate([array] * n, axis)
 
     def mosaic(self, array, dimensions):
         """
@@ -103,17 +111,27 @@ if __name__ == '__main__':
                   [16, 17, 18, 19, 20],
                   [21, 22, 23, 24, 25]])
     
-    print('--------- 5x5 ---------')
-    print(matrix)
+    # print('--------- 5x5 ---------')
+    # print(matrix)
 
-    print('------ 3x3 starting (1, 1) ------')
-    submatrix = x.crop(matrix, (3, 3), (1, 1))
-    print(submatrix)
+    # print('------ 3x3 starting (1, 1) ------')
+    # submatrix = x.crop(matrix, (3, 3), (1, 1))
+    # print(submatrix)
 
-    print('------ 2x2 starting (2, 2) ------')
-    submatrix = x.crop(matrix, (2, 2), (2, 2))
-    print(submatrix)
+    # print('------ 2x2 starting (2, 2) ------')
+    # submatrix = x.crop(matrix, (2, 2), (2, 2))
+    # print(submatrix)
 
-    print('------ 10x10 starting (0, 0) ------')
-    submatrix = x.crop(matrix, (10, 10), (0, 0)) # Not compatible with the size of the original matrix
-    print(submatrix)
+    # print('------ 10x10 starting (0, 0) ------')
+    # submatrix = x.crop(matrix, (10, 10), (0, 0)) # Not compatible with the size of the original matrix
+    # print(submatrix)
+
+    # arr2 = np.array("A B C D E F G H I".split() * 6).reshape(-1,9)
+    # print(x.thin(arr2, 3, 0))
+
+    # arr3 = np.array([[var] * 10 for var in "ABCDEFG"])
+    # print(x.thin(arr3 3, 1))
+
+
+    arr7 = np.array([[1, 2, 3],[1, 2, 3],[1, 2, 3]])
+    print(x.juxtapose(arr7, 3, 1))
