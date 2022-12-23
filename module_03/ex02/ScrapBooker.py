@@ -1,7 +1,8 @@
+import numpy as np
+
 class ScrapBooker:
 
     def __init__(self):
-        
         pass
 
     def crop(self, array, dimensions, position=(0, 0)):
@@ -24,7 +25,11 @@ class ScrapBooker:
         ------
         This function should not raise any Exception.
         """
-        pass
+        row_start, row_end = position[0], position[0] + dimensions[0]
+        col_start, col_end = position[1], position[1] + dimensions[1]
+        if row_end > array.shape[0] or col_end > array.shape[1]:
+            return None
+        return array[row_start:row_end, col_start:col_end]
 
     def thin(self, array, n, axis):
         """
@@ -90,3 +95,25 @@ class ScrapBooker:
         """        
         pass
 
+if __name__ == '__main__':
+    x = ScrapBooker()
+    matrix = np.array([[1, 2, 3, 4, 5],
+                  [6, 7, 8, 9, 10],
+                  [11, 12, 13, 14, 15],
+                  [16, 17, 18, 19, 20],
+                  [21, 22, 23, 24, 25]])
+    
+    print('--------- 5x5 ---------')
+    print(matrix)
+
+    print('------ 3x3 starting (1, 1) ------')
+    submatrix = x.crop(matrix, (3, 3), (1, 1))
+    print(submatrix)
+
+    print('------ 2x2 starting (2, 2) ------')
+    submatrix = x.crop(matrix, (2, 2), (2, 2))
+    print(submatrix)
+
+    print('------ 10x10 starting (0, 0) ------')
+    submatrix = x.crop(matrix, (10, 10), (0, 0)) # Not compatible with the size of the original matrix
+    print(submatrix)
