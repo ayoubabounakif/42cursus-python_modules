@@ -25,6 +25,7 @@ class ScrapBooker:
         ------
         This function should not raise any Exception.
         """
+        if not isinstance(dimensions, tuple) or len(dimensions) != 2: return None
         row_start, row_end = position[0], position[0] + dimensions[0]
         col_start, col_end = position[1], position[1] + dimensions[1]
         if row_end > array.shape[0] or col_end > array.shape[1]:
@@ -51,11 +52,9 @@ class ScrapBooker:
         ------
         This function should not raise any Exception.
         """
-        if axis != 0 and axis != 1:
-            return None
-        if n < 1 or n > array.shape[axis]:
-            return None
-        return np.delete(array, np.s_[n-1::n], axis)
+        if axis != 0 and axis != 1: return None
+        if n < 1 or n > array.shape[axis]: return None
+        return np.delete(array, np.s_[n-1::n], axis) # np.s_[start:stop:step] is a slice object
 
     def juxtapose(self, array, n, axis):
         """
@@ -76,10 +75,8 @@ class ScrapBooker:
         -------
         This function should not raise any Exception.
         """
-        if axis != 0 and axis != 1:
-            return None
-        if n < 1:
-            return None
+        if axis != 0 and axis != 1: return None
+        if n < 1: return None
         return np.concatenate([array] * n, axis)
 
     def mosaic(self, array, dimensions):
@@ -100,38 +97,63 @@ class ScrapBooker:
         Raises
         -------
         This function should not raise any Exception.
-        """        
-        pass
+        """
+        if not isinstance(dimensions, tuple) or len(dimensions) != 2: return None
+        if dimensions[0] < 1 or dimensions[1] < 1: return None
+        return np.tile(array, dimensions) # dimensions would be the number of tiles in each dimension
 
 if __name__ == '__main__':
     x = ScrapBooker()
-    matrix = np.array([[1, 2, 3, 4, 5],
-                  [6, 7, 8, 9, 10],
-                  [11, 12, 13, 14, 15],
-                  [16, 17, 18, 19, 20],
-                  [21, 22, 23, 24, 25]])
+    # matrix = np.array([[1, 2, 3, 4, 5],
+    #               [6, 7, 8, 9, 10],
+    #               [11, 12, 13, 14, 15],
+    #               [16, 17, 18, 19, 20],
+    #               [21, 22, 23, 24, 25]])
     
     # print('--------- 5x5 ---------')
     # print(matrix)
 
-    # print('------ 3x3 starting (1, 1) ------')
+    # print('------ Crop 3x3 starting (1, 1) ------')
     # submatrix = x.crop(matrix, (3, 3), (1, 1))
     # print(submatrix)
 
-    # print('------ 2x2 starting (2, 2) ------')
+    # print('------ Crop 2x2 starting (2, 2) ------')
     # submatrix = x.crop(matrix, (2, 2), (2, 2))
     # print(submatrix)
 
-    # print('------ 10x10 starting (0, 0) ------')
+    # print('------ Crop 10x10 starting (0, 0) ------')
     # submatrix = x.crop(matrix, (10, 10), (0, 0)) # Not compatible with the size of the original matrix
     # print(submatrix)
 
+    # print('------ Matrix Horizontal Thin ------')
     # arr2 = np.array("A B C D E F G H I".split() * 6).reshape(-1,9)
     # print(x.thin(arr2, 3, 0))
 
+    # print('------ Matrix Vertical Thin ------')
     # arr3 = np.array([[var] * 10 for var in "ABCDEFG"])
-    # print(x.thin(arr3 3, 1))
+    # print(x.thin(arr3, 3, 1))
 
 
-    arr7 = np.array([[1, 2, 3],[1, 2, 3],[1, 2, 3]])
-    print(x.juxtapose(arr7, 3, 1))
+    # print('------ Vertical Juxtaposition ---------')
+    # arr4 = np.array([[1, 2, 3],[4, 5, 6],[7, 8, 9]])
+    # print(x.juxtapose(arr4, 2, 0))
+
+    # print('------ Horizontal Juxtaposition ---------')
+    # arr7 = np.array([[1, 2, 3],[1, 2, 3],[1, 2, 3]])
+    # print(x.juxtapose(arr7, 3, 1))
+
+    # print('------ Wrong parameters ---------')
+    # print(x.juxtapose(arr4, -2, 0))
+
+
+    # print('------ Mosaic ---------')
+    # arr5 = np.array([[1, 2, 3],[4, 5, 6],[7, 8, 9]])
+    # print(x.mosaic(arr5, (1, 5)))
+
+    # print('------ Wrong parameters ---------')
+    # print(x.mosaic(arr4, (1, 2, 3)))
+
+    # c = np.array([1, 2, 3, 4])
+    # print(np.tile(c, (4, 1)))
+    # print(np.tile(c, (1, 2, 3)))
+
