@@ -126,9 +126,10 @@ class ColorFilter:
         -------
         This function should not raise any Exception.
         """
+
         grayscale_array = np.copy(array)
         if filter == 'mean' or filter == 'm':
-            # Ylinear = 0.2126 Rlin + 0.7152 Glin + 0.0722 Blin
+            # rgb2gray converts RGB values to grayscale values by forming a weighted sum of the R, G, and B components: 0.2989 * R + 0.5870 * G + 0.1140 * B 
             Ylinear = [0.2989, 0.5870, 0.1140] # Gray
             grayscale_array = np.sum(grayscale_array[...,:3] * Ylinear, axis=-1)
         elif filter == 'weight' or filter == 'w':
@@ -195,13 +196,14 @@ if __name__ == "__main__":
     #     plt.imshow(f(array))
     #     plt.show()
 
-    array = load("../resources/elon_canaGAN.png")
-    plt.imshow(cf.to_celluloid(array))
-    plt.show()
-
-    # im = cf.to_grayscale(array, "m")
-    # plt.imshow(im, cmap="gray")
+    # array = load("../resources/elon_canaGAN.png")
+    # plt.imshow(cf.to_celluloid(array))
     # plt.show()
+
+    array = load("../resources/elon_canaGAN.png")
+    im = cf.to_grayscale(array, "m")
+    plt.imshow(im, cmap='gray')
+    plt.show()
 
 
     # im = cf.to_grayscale(array, "w", weights = [0.2, 0.3, 0.5])
