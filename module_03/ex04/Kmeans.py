@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
+REGISTERED_AREAS = ['The flying cities of Venus', 'United Nations of Earth', 'Mars Republic', "Asteroids' Belt colonies"]
+
 class KmeansClustering:
     def __init__(self, max_iter=100, ncentroid=5):
         self.ncentroid = ncentroid # number of centroids
@@ -25,6 +27,7 @@ class KmeansClustering:
         -------
         This function should not raise any Exception.
         """
+        
         # Randomly initialize the centroids (0, X.shape[0], size=self.ncentroid)
         self.centroids = X[np.random.randint(0, X.shape[0], self.ncentroid)]
         for _ in range(self.max_iter):
@@ -68,11 +71,24 @@ class KmeansClustering:
         elif X.shape[1] == 3:
             fig = plt.figure()
             ax = fig.add_subplot(111, projection='3d')
+            for label, name in enumerate(REGISTERED_AREAS):
+                ax.text3D(X[y == label, 0].mean(),
+                        X[y == label, 1].mean() + 1.5,
+                        X[y == label, 2].mean(), name,
+                        horizontalalignment='center',
+                        bbox=dict(alpha=.5, edgecolor='w', facecolor='w'))
             ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=y)
             ax.scatter(self.centroids[:, 0], self.centroids[:, 1], self.centroids[:, 2], c='red')
         plt.show()
 
-if __name__ == "__main__":
+def main():
+    """
+    Centroids should be randomly initialized
+
+    For a fix value of 'ncentroid', centroids coordinates slightly differ when running the algorithm multiple times.
+    
+    Results are coherent and consistent trough multiple program execution. Most of the time, centroids converged to similar coordinates and number people associated to each centroids varies little.
+    """
     # kmeans = KmeansClustering()
     # matrix = np.random.rand(100, 2)
     # kmeans.fit(matrix)
@@ -83,4 +99,8 @@ if __name__ == "__main__":
     kmeans = KmeansClustering(ncentroid=int(sys.argv[2].split('=')[1]), max_iter=int(sys.argv[3].split('=')[1]))
     kmeans.fit(matrix)
     vector = kmeans.predict(matrix)
+    print(kmeans.centroids)
     kmeans.plot(matrix, vector)
+
+if __name__ == "__main__":
+    main()
