@@ -1,22 +1,21 @@
 from FileLoader import FileLoader
 
-#"What was the percentage of
-#female tennis players among all the female participants of the 2016 Olympics?"
-def proportion_by_sport(df, year, sport, gender) -> float:
-    filtered_df = df[df['Year'] == year]
-    filtered_df = df[df['Sex'] == gender]
-    # filtered_df = filtered_df.drop_duplicates(subset='Sport')
-    total_count = len(filtered_df) # total number of female **participants** in year
+def proportion_by_sport(df, year: int, sport: str, gender: str) -> float:
+    # Syntax: df [ (df[‘‘column name 1' ]==’column value’ ) & (df[‘‘column name 2' ]==’column value’ )]
+    
+    total_count = df[ (df['Year'] == year) & (df['Sex'] == gender) ].drop_duplicates(subset='Name').count()[0]
+    sport_count = df[ (df['Year'] == year) & (df['Sex'] == gender) & (df['Sport'] == sport) ].drop_duplicates(subset='Name').count()[0]
 
-    filtered_df = filtered_df[filtered_df['Sport'] == sport]
-    filtered_df = filtered_df.drop_duplicates(subset='Sport') # remove duplicates
-    sport_count = len(filtered_df) # number of gender **sport** players in year
+    # total_count = df[ (df['Year'] == year) & (df['Sex'] == gender) ].drop_duplicates().count()[0]
+    # sport_count = df[ (df['Year'] == year) & (df['Sex'] == gender) & (df['Sport'] == sport) ].drop_duplicates().count()[0]
+    # proportion = '{:0.1f}%'.format((sport_count / total_count * 100))
 
-    proportion = sport_count / total_count * 100
+    proportion = sport_count / total_count
     return proportion
 
 if __name__ == '__main__':
     loader = FileLoader()
     data = loader.load('../data/athlete_events.csv')
-    print(proportion_by_sport(data, 2004, 'Tennis', 'F'))
-    pass
+    print(proportion_by_sport(data, 2004, 'Tennis', 'F')) # 0.019302325581395347 || 0.02307...
+    print(proportion_by_sport(data, 2008, 'Hockey', 'F')) # 0.04149467738431458 || 0.03284...
+    print(proportion_by_sport(data, 1964, 'Biathlon', 'M')) # 0.009539842873176206|| 0.00659...
