@@ -2,15 +2,15 @@ from FileLoader import FileLoader
 
 def proportion_by_sport(df, year: int, sport: str, gender: str) -> float:
     # Syntax: df [ (df[‘‘column name 1' ]==’column value’ ) & (df[‘‘column name 2' ]==’column value’ )]
-    
-    total_count = df[ (df['Year'] == year) & (df['Sex'] == gender) ].drop_duplicates(subset='Name').count()[0]
-    sport_count = df[ (df['Year'] == year) & (df['Sex'] == gender) & (df['Sport'] == sport) ].drop_duplicates(subset='Name').count()[0]
 
     # total_count = df[ (df['Year'] == year) & (df['Sex'] == gender) ].drop_duplicates().count()[0]
     # sport_count = df[ (df['Year'] == year) & (df['Sex'] == gender) & (df['Sport'] == sport) ].drop_duplicates().count()[0]
     # proportion = '{:0.1f}%'.format((sport_count / total_count * 100))
 
+    total_count = df[ (df['Year'] == year) & (df['Sex'] == gender) ].drop_duplicates(subset='Name').count()[0]
+    sport_count = df[ (df['Year'] == year) & (df['Sex'] == gender) & (df['Sport'] == sport) ].drop_duplicates(subset='Name').count()[0]
     proportion = sport_count / total_count
+
     return proportion
 
 if __name__ == '__main__':
