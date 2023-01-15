@@ -4,8 +4,8 @@ TEAM_SPORTS = ['Basketball', 'Football',  'Tug-Of-War', 'Badminton', 'Sailing', 
 
 def how_many_medals_by_country(df, country_name):
 
-    # filtered_dfdf = df[(df['Team'] == country_name) & (~df['Sport'].isin(TEAM_SPORTS))]
-    filtered_dfdf = df[(df['Team'] == country_name)]
+    filtered_dfdf = df[(df['Team'] == country_name) & (~df['Sport'].isin(TEAM_SPORTS))]
+    # filtered_dfdf = df[(df['Team'] == country_name)]
     filtered_dfdf = filtered_dfdf.groupby('Year')['Medal'].value_counts(dropna=False).unstack().fillna(0).astype(int)
 
     d = {}
