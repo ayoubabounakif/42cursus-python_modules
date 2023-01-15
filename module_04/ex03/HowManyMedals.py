@@ -18,15 +18,15 @@ if __name__ == "__main__":
     data = loader.load("../data/athlete_events.csv")
  
     print(how_many_medals(data, 'Kjetil Andr Aamodt'))
-    {1992: {'G': 1, 'S': 0, 'B': 1}, 1994: {'G': 0, 'S': 2, 'B': 1}, 2002: {'G': 2, 'S': 0, 'B': 0}, 2006: {'G': 1, 'S': 0, 'B': 0}}
+    # {1992: {'G': 1, 'S': 0, 'B': 1}, 1994: {'G': 0, 'S': 2, 'B': 1}, 2002: {'G': 2, 'S': 0, 'B': 0}, 2006: {'G': 1, 'S': 0, 'B': 0}}
 
-    # print(how_many_medals(data, 'Gary Abraham'))
-    # {1976: {'G': 0, 'S': 0, 'B': 0}, 1980: {'G': 0, 'S': 0, 'B': 1}}
+    print(how_many_medals(data, 'Gary Abraham'))
+    # {1976: {'G': 0, 'S': 0, 'B': 0}, 1980: {'G': 0, 'S': 0, 'B': 1}}  
 
-    # print(how_many_medals(data, 'Yekaterina Konstantinovna Abramova'))
+    print(how_many_medals(data, 'Yekaterina Konstantinovna Abramova'))
     # {2006: {'G': 0, 'S': 0, 'B': 1}, 2010: {'G': 0, 'S': 0, 'B': 0}}
 
-    # print(how_many_medals(data, 'Kristin Otto'))
+    print(how_many_medals(data, 'Kristin Otto'))
     # {1988: {'G': 6, 'S': 0, 'B': 0}}
 
 
