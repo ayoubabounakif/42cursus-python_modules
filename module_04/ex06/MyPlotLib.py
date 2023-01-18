@@ -8,39 +8,36 @@ import seaborn as sns
 
 class MyPlotLib:
     def histogram(self, data, features):
-        for feature in features:
-            if data[feature].dtype == 'float' or data[feature].dtype == 'int':
-                plt.hist(data[feature])
+        for i in range(len(features)):
+            if data[features[i]].dtype == 'float' or data[features[i]].dtype == 'int':
+                plt.hist(data[features[i]])
                 # plt.style.use('ggplot')
-                plt.xlabel(feature)
-                plt.title(f'{feature}')
+                plt.xlabel(features[i])
+                plt.title(f'{features[i]}')
                 plt.show()
             else:
-                print(f"{feature} is not numerical.")
+                print(f"{features[i]} is not numerical.")
 
     def density(self, data, features):
-        for feature in features:
-            if data[feature].dtype == 'float' or data[feature].dtype == 'int':
-                sns.kdeplot(data[feature])
-                plt.xlabel(feature)
-                plt.title(f'{feature}')
-                plt.show()
+        for i in range(len(features)):
+            if data[features[i]].dtype == 'float' or data[features[i]].dtype == 'int':
+                sns.kdeplot(data[features[i]])
+                plt.xlabel(features[i])
             else:
-                print(f"{feature} is not numerical.")
+                print(f"{features[i]} is not numerical.")
+        plt.legend(features)
+        plt.show()
                 
     def pair_plot(self, data, features):
-        sns.pairplot(data[features], diag_kind='hist')
+        # g = sns.PairGrid(data, y_vars=features, x_vars=features, height=4)
+        # sns.pairplot(data[features])
         plt.show()
 
     def box_plot(self, data, features):
-        for feature in features:
-            if data[feature].dtype == 'float' or data[feature].dtype == 'int':
-                sns.boxplot(data[feature])
-                plt.xlabel(feature)
-                plt.title(f'{feature}')
-                plt.show()
-            else:
-                print(f"{feature} is not numerical.")
+        fig = plt.figure()
+        fig.add_subplot()
+        data.boxplot(column=features, grid=False)
+        plt.show()
 
 def main():
     # fig = plt.figure()
@@ -128,10 +125,10 @@ def main():
     data = pd.read_csv('../data/athlete_events.csv')
 
     plot = MyPlotLib()
-    plot.histogram(data, ['Height', 'Weight'])
-    plot.density(data, ['Height', 'Weight'])
-    plot.pair_plot(data, ['Height', 'Weight'])
-    plot.box_plot(data, ['Height', 'Weight'])
+    # plot.histogram(data, ['Height', 'Weight'])
+    # plot.density(data, ['Weight', 'Height'])
+    plot.pair_plot(data, ['Weight', 'Height'])
+    # plot.box_plot(data, ['Weight', 'Height'])
 
     # plt.show()
     pass
