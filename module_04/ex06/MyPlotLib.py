@@ -9,28 +9,27 @@ import seaborn as sns
 class MyPlotLib:
     def histogram(self, data, features):
         for i in range(len(features)):
-            if data[features[i]].dtype == 'float' or data[features[i]].dtype == 'int':
-                plt.hist(data[features[i]])
-                # plt.style.use('ggplot')
-                plt.xlabel(features[i])
-                plt.title(f'{features[i]}')
-                plt.show()
-            else:
-                print(f"{features[i]} is not numerical.")
+            plt.hist(data[features[i]])
+            plt.xlabel(features[i])
+            plt.title(f'{features[i]}')
+            plt.grid(True)
+            plt.show()
 
     def density(self, data, features):
-        for i in range(len(features)):
-            if data[features[i]].dtype == 'float' or data[features[i]].dtype == 'int':
-                sns.kdeplot(data[features[i]])
-                plt.xlabel(features[i])
-            else:
-                print(f"{features[i]} is not numerical.")
-        plt.legend(features)
+        data[features].plot.kde()
         plt.show()
                 
     def pair_plot(self, data, features):
         # g = sns.PairGrid(data, y_vars=features, x_vars=features, height=4)
         # sns.pairplot(data[features])
+        # g = sns.PairGrid(data, y_vars=features, x_vars=features, height=4   )
+        # sns.pairplot(data[features], diag_kind='hist', kind='reg', fit_reg=False)
+        # g.map_diag(sns.kdeplot)
+        # g.map_offdiag(sns.kdeplot)
+
+        g = sns.PairGrid(data, vars=features)
+        g.map_diag(sns.histplot, binwidth=10, edgecolor=None)
+        g.map_offdiag(sns.regplot, fit_reg=False)
         plt.show()
 
     def box_plot(self, data, features):
@@ -126,8 +125,8 @@ def main():
 
     plot = MyPlotLib()
     # plot.histogram(data, ['Height', 'Weight'])
-    # plot.density(data, ['Weight', 'Height'])
-    plot.pair_plot(data, ['Weight', 'Height'])
+    plot.density(data, ['Weight', 'Height'])
+    # plot.pair_plot(data, ['Weight', 'Height'])
     # plot.box_plot(data, ['Weight', 'Height'])
 
     # plt.show()
