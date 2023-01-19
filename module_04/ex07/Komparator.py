@@ -5,7 +5,7 @@ import seaborn as sns
 from MyPlotLib import MyPlotLib
 
 class Komparator:
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
     def compare_box_plots(self, categorical_var, numerical_var):
