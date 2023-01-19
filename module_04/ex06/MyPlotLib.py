@@ -124,10 +124,10 @@ def main():
     data = pd.read_csv('../data/athlete_events.csv')
 
     plot = MyPlotLib()
-    # plot.histogram(data, ['Height', 'Weight'])
+    plot.histogram(data, ['Height', 'Weight'])
     plot.density(data, ['Weight', 'Height'])
-    # plot.pair_plot(data, ['Weight', 'Height'])
-    # plot.box_plot(data, ['Weight', 'Height'])
+    plot.pair_plot(data, ['Weight', 'Height'])
+    plot.box_plot(data, ['Weight', 'Height'])
 
     # plt.show()
     pass
